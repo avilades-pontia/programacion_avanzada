@@ -2,8 +2,8 @@ from fastapi import FastAPI
 import logging
 
 logging.basicConfig(
-    level=logging.INFO, #DEBUG, INFO, WARNING, ERROR, CRITICAL
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.WARNING, #DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format="%(asctime)s - %(name)s - %(funcName)s - %(levelname)s  - %(message)s",
     #filename=
 )
 
@@ -27,8 +27,14 @@ def cutom_greeting(name:str):
     processed_name = name.capitalize()
     logger.info(f"Capitalize name : {processed_name}")
     if processed_name == "Alvaro":
+        #configuramos el logger para que muestre todos los niveles de log, segun lo que tengamos configurado en el basicConfig  pintara
+        logger.debug(f"Mister {processed_name} is visiting our web")
+        logger.info(f"Mister {processed_name} is visiting our web")
         logger.warning(f"Mister {processed_name} is visiting our web")
-    return {f"FastAPI Hello {processed_name}"}
+        logger.error(f"Mister {processed_name} is visiting our web")
+        logger.critical(f"Mister {processed_name} is visiting our web")
+        return {"message": f"Mister {processed_name} is visiting our web"}
+    return {"message": f"FastAPI Hello {processed_name}"}
 
 @app.get("/data")
 def devolvemos_datos():
